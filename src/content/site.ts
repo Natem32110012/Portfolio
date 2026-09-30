@@ -6,7 +6,7 @@ export const profile = {
   email: "seckin.guneri@gmail.com",
   emailHref: "mailto:seckin.guneri@gmail.com",
   linkedin: "https://www.linkedin.com/in/seckinguneri/",
-  cv: "/cv.pdf",
+  cv: "/Seckin-Guneri-Marketing-Artist-CV.pdf",
   certificate: "/google-certificate.png",
   portrait: "/portrait.jpg",
 };
