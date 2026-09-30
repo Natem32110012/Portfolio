@@ -26,7 +26,7 @@ export type Dictionary = {
     heading: string;
     paragraphs: { text: string; strong?: boolean }[][];
   };
-  contact: { linkedin: string; cv: string };
+  contact: { linkedin: string; cv: string; certificate: string; certificateCaption: string; certificateAlt: string };
   stats: Record<StatId, string>;
   experience: {
     heading: string;

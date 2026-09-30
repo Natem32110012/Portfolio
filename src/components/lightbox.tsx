@@ -26,11 +26,13 @@ export function Lightbox({ t, activeId, filter, onClose, onStep }: Props) {
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (activeId && !dialog.open) {
-      dialog.showModal();
-      openedAt.current = Date.now();
-    }
-    if (!activeId && dialog.open) dialog.close();
+    if (activeId) {
+      openedAt.current = Number(dialog.dataset.opened || Date.now());
+      if (!dialog.open) {
+        dialog.dataset.opened = String(openedAt.current);
+        dialog.showModal();
+      }
+    } else if (dialog.open) dialog.close();
   }, [activeId]);
 
   useEffect(() => {
@@ -64,7 +66,8 @@ export function Lightbox({ t, activeId, filter, onClose, onStep }: Props) {
   }, [activeId, onClose, onStep]);
 
   function onDialogClick(event: MouseEvent<HTMLDialogElement>) {
-    if (Date.now() - openedAt.current < 450) return;
+    const opened = Number(event.currentTarget.dataset.opened || openedAt.current || 0);
+    if (Date.now() - opened < 700) return;
     if (event.target !== event.currentTarget) return;
     onClose();
   }

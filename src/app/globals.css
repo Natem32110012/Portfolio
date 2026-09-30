@@ -423,27 +423,10 @@ p { margin: 0; }
 }
 
 .contact-dock {
-  position: relative;
   width: max-content;
   max-width: 100%;
   margin-top: 16px;
-  padding: 1.5px;
   border-radius: 999px;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.contact-dock::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 160%;
-  aspect-ratio: 1;
-  background: conic-gradient(#8ebeff, #d7f25c, #8ebeff, #b48cff, #8ebeff);
-  animation: contact-ring 4.5s linear infinite;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
 }
 
 .contacts-split {
@@ -457,12 +440,18 @@ p { margin: 0; }
 .identity .contacts-split {
   margin-top: auto;
   margin-right: -10px;
-  margin-bottom: -8px;
+  margin-bottom: 6px;
   width: calc(100% + 10px);
 }
 
 .contacts-split .contact-dock {
   margin-top: 0;
+}
+
+.contacts-split .contact-dock .contacts {
+  background: transparent;
+  padding: 0;
+  justify-content: flex-end;
 }
 
 .contacts a[href*="linkedin"] svg {
@@ -489,7 +478,8 @@ p { margin: 0; }
   justify-content: flex-start;
 }
 
-.contacts a {
+.contacts a,
+.contacts button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -499,9 +489,12 @@ p { margin: 0; }
   border: 1px solid var(--line);
   color: var(--text);
   text-decoration: none;
+  font: inherit;
   font-size: 0.95rem;
   line-height: 1;
   background: rgba(255, 255, 255, 0.03);
+  appearance: none;
+  cursor: pointer;
   transition: border-color 160ms var(--ease), background 160ms var(--ease), transform 160ms var(--ease);
 }
 
@@ -512,7 +505,8 @@ p { margin: 0; }
   flex: none;
 }
 
-.contacts a:hover {
+.contacts a:hover,
+.contacts button:hover {
   border-color: rgba(142, 190, 255, 0.45);
   background: var(--accent-dim);
 }
@@ -550,10 +544,6 @@ p { margin: 0; }
 
 .contacts a.primary:hover .dl-arrow {
   animation: dl-pop 520ms var(--ease);
-}
-
-@keyframes contact-ring {
-  to { transform: translate(-50%, -50%) rotate(1turn); }
 }
 
 @keyframes dl-pop {
@@ -1188,6 +1178,20 @@ p { margin: 0; }
   gap: 12px;
 }
 
+.work-grid-wide {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+}
+
+.work-grid-wide .tile {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.work-grid-wide .size-wide {
+  grid-column: auto;
+}
+
 .tile {
   position: relative;
   height: 100%;
@@ -1251,13 +1255,15 @@ p { margin: 0; }
 }
 
 .lb::backdrop,
-.roster::backdrop {
+.roster::backdrop,
+.certificate::backdrop {
   background: rgba(6, 8, 12, 0.78);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .lb::backdrop,
   .roster::backdrop,
+  .certificate::backdrop,
   .topbar.scrolled::before,
   .work-bar::before {
     backdrop-filter: blur(16px);
@@ -1367,6 +1373,39 @@ p { margin: 0; }
 @keyframes roster-in {
   from { opacity: 0; transform: translateY(16px) scale(0.9); }
   to { opacity: 1; transform: none; }
+}
+
+.certificate {
+  width: min(920px, calc(100vw - 28px));
+  max-height: min(88dvh, 860px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #141820;
+  color: var(--text);
+  overflow: auto;
+}
+
+.certificate-panel {
+  padding: 22px 22px 24px;
+  animation: roster-panel 380ms var(--ease);
+}
+
+.certificate-caption {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.certificate-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 16px;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .lb-body {
@@ -1557,22 +1596,36 @@ p { margin: 0; }
   .identity .contacts-split {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 14px;
+    margin-top: 14px;
     margin-right: 0;
     margin-bottom: 0;
     width: 100%;
   }
+  .identity .contacts.contact-pair {
+    gap: 14px;
+  }
+  .identity .contacts.contact-pair a {
+    width: 100%;
+    justify-content: center;
+  }
   .contacts-split .contact-dock {
     width: 100%;
   }
+  .contacts-split .contact-dock .contacts {
+    gap: 14px;
+  }
   .contacts-split .contact-dock .contacts,
-  .contacts-split .contacts a.primary {
+  .contacts-split .contacts a.primary,
+  .contacts-split .contacts .certificate-open {
     width: 100%;
   }
-  .contacts-split .contacts a.primary { justify-content: center; }
+  .contacts-split .contacts a.primary,
+  .contacts-split .contacts .certificate-open { justify-content: center; }
   .stats {
     grid-template-columns: 1fr;
     align-items: stretch;
+    gap: 16px;
   }
   .stat-open { min-height: 56px; }
   .footer .contact-dock {
@@ -1597,6 +1650,7 @@ p { margin: 0; }
     min-height: 168px;
   }
   .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 180px; }
+  .work-grid-wide { grid-template-columns: 1fr; }
   .filters { justify-content: flex-start; flex-wrap: wrap; }
   .work-bar { align-items: stretch; }
   .lb {
@@ -1626,6 +1680,7 @@ p { margin: 0; }
   .rise,
   .tool,
   .roster-panel,
+  .certificate-panel,
   .status i,
   .glyph::after,
   .tile img,
@@ -1633,10 +1688,10 @@ p { margin: 0; }
   .shot-track,
   .shot img,
   .arrow,
-  .contact-dock::before,
   .contacts a.primary::after,
   .contacts a.primary .dl-arrow,
   .contacts a,
+  .contacts button,
   .glyph {
     animation: none !important;
     transition: none !important;

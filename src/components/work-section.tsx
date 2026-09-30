@@ -66,7 +66,7 @@ export function WorkSection({ t, filter, onFilter, onOpen }: Props) {
       {items.length === 0 ? (
         <p className="empty">{t.work.empty}</p>
       ) : (
-        <motion.div className="work-grid" layout>
+        <motion.div className={`work-grid${filter === "assets" ? " work-grid-wide" : ""}`} layout>
           <AnimatePresence mode="popLayout" initial={false}>
             {items.map((item) => (
               <Tile

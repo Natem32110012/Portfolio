@@ -1,4 +1,4 @@
-import { workIds } from "@/content/site";
+import { aiWorkIds, type WorkId } from "@/content/site";
 import type { Dictionary, WorkCopy } from "@/locales/types";
 
 const en = {
@@ -63,6 +63,9 @@ const en = {
   contact: {
     linkedin: "LinkedIn",
     cv: "Download CV",
+    certificate: "Google Certificate",
+    certificateCaption: "Fundamentals of Digital Marketing · Google Digital Workshop · 2022",
+    certificateAlt: "Google Digital Workshop certificate for Seçkin Güneri",
   },
   stats: {
     years: "Experience years",
@@ -156,19 +159,84 @@ const en = {
       ugc: "UGC Creatives",
       assets: "3D Assets",
     },
-    items: Object.fromEntries(
-      workIds.map((id, index) => {
-        const title = `${String(index + 1).padStart(2, "0")}-Creative`;
-        const copy: WorkCopy = {
-          title,
-          caption: "AI video creative.",
-          role: "Marketing Artist",
-          result: "",
-          alt: title,
-        };
-        return [id, copy];
-      }),
-    ) as Record<(typeof workIds)[number], WorkCopy>,
+    items: {
+      ...Object.fromEntries(
+        aiWorkIds.map((id, index) => {
+          const title = `${String(index + 1).padStart(2, "0")}-Creative`;
+          const copy: WorkCopy = {
+            title,
+            caption: "AI video creative.",
+            role: "Marketing Artist",
+            result: "",
+            alt: title,
+          };
+          return [id, copy];
+        }),
+      ),
+      "asset-switch": {
+        title: "Toggle Switch",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D toggle switch",
+      },
+      "asset-cash": {
+        title: "Cash Stack",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D cash stack",
+      },
+      "asset-character": {
+        title: "Character",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D character",
+      },
+      "asset-safe": {
+        title: "Safe",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D safe",
+      },
+      "asset-headphones": {
+        title: "Headphones",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D headphones",
+      },
+      "asset-watch": {
+        title: "Watch",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D watch",
+      },
+      "asset-phone": {
+        title: "Phone",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D phone",
+      },
+      "asset-necklace": {
+        title: "Necklace",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D necklace",
+      },
+      "asset-cart": {
+        title: "Shopping Cart",
+        caption: "3D asset.",
+        role: "Marketing Artist",
+        result: "",
+        alt: "3D shopping cart",
+      },
+    } as Record<WorkId, WorkCopy>,
   },
   footer: {
     heading: "Let's work together",

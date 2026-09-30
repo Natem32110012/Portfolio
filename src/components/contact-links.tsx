@@ -51,6 +51,16 @@ function LinkedInLink({ label }: { label: string }) {
   );
 }
 
+function CertificateIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="4" y="3.5" width="16" height="13" rx="2" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M8 8h8M8 11.2h5.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M9.4 16.5 12 20l2.6-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function CvLink({ label }: { label: string }) {
   return (
     <a className="primary" href={profile.cv} download>
@@ -60,7 +70,15 @@ function CvLink({ label }: { label: string }) {
   );
 }
 
-export function ContactLinks({ t, split = false }: { t: Dictionary; split?: boolean }) {
+export function ContactLinks({
+  t,
+  split = false,
+  onCertificate,
+}: {
+  t: Dictionary;
+  split?: boolean;
+  onCertificate?: () => void;
+}) {
   if (split) {
     return (
       <div className="contacts-split">
@@ -70,6 +88,12 @@ export function ContactLinks({ t, split = false }: { t: Dictionary; split?: bool
         </div>
         <div className="contact-dock">
           <div className="contacts">
+            {onCertificate ? (
+              <button type="button" className="certificate-open" aria-haspopup="dialog" onClick={onCertificate}>
+                <CertificateIcon />
+                {t.contact.certificate}
+              </button>
+            ) : null}
             <CvLink label={t.contact.cv} />
           </div>
         </div>

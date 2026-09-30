@@ -5,8 +5,10 @@ import { Hero } from "@/components/hero";
 import { Lightbox } from "@/components/lightbox";
 import { WorkSection } from "@/components/work-section";
 import { profile, worksByFilter, type Category, type FilterId, type WorkId } from "@/content/site";
+import { showModal } from "@/lib/dialog";
 import { getDictionary, type Locale } from "@/locales";
 import { useCallback, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 
 export function Site({ initialLocale }: { initialLocale: Locale }) {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
@@ -38,6 +40,14 @@ export function Site({ initialLocale }: { initialLocale: Locale }) {
     setFilter(category ?? "all");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.getElementById("work")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  }, []);
+
+  const openWork = useCallback((id: WorkId, resetFilter = false) => {
+    flushSync(() => {
+      if (resetFilter) setFilter("all");
+      setActiveId(id);
+    });
+    showModal("dialog.lb");
   }, []);
 
   const close = useCallback(() => setActiveId(null), []);
@@ -84,14 +94,11 @@ export function Site({ initialLocale }: { initialLocale: Locale }) {
             <Hero
               t={t}
               onExplore={explore}
-              onOpen={(id) => {
-                setFilter("all");
-                setActiveId(id);
-              }}
+              onOpen={(id) => openWork(id, true)}
             />
           </main>
         </div>
-        <WorkSection t={t} filter={filter} onFilter={setFilter} onOpen={setActiveId} />
+        <WorkSection t={t} filter={filter} onFilter={setFilter} onOpen={openWork} />
         <footer className="footer">
           <p className="eyebrow">{t.hero.status}</p>
           <h2>{t.footer.heading}</h2>

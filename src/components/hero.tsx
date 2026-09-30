@@ -1,5 +1,6 @@
 "use client";
 
+import { CertificateDialog } from "@/components/certificate-dialog";
 import { ContactLinks } from "@/components/contact-links";
 import { Experience } from "@/components/experience";
 import { PhotoCard } from "@/components/photo-card";
@@ -17,8 +18,10 @@ import {
   type StatId,
   type WorkId,
 } from "@/content/site";
+import { showModal } from "@/lib/dialog";
 import type { Dictionary } from "@/locales";
 import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { flushSync } from "react-dom";
 
 type Props = {
   t: Dictionary;
@@ -62,6 +65,8 @@ export function Hero({ t, onExplore, onOpen }: Props) {
   const teaser = categories.map((id) => t.work.categories[id]).join("  ·  ");
   const [roster, setRoster] = useState<StatId | null>(null);
   const [rosterSession, setRosterSession] = useState(0);
+  const [certificateOpen, setCertificateOpen] = useState(false);
+  const [certificateSession, setCertificateSession] = useState(0);
   const shotsRef = useRef<HTMLDivElement>(null);
   const ignoreShotClick = useRef(false);
 
@@ -88,8 +93,19 @@ export function Hero({ t, onExplore, onOpen }: Props) {
 
   function openRoster(id: StatId) {
     if (id === "years") return;
-    setRosterSession((session) => session + 1);
-    setRoster(id);
+    flushSync(() => {
+      setRosterSession((session) => session + 1);
+      setRoster(id);
+    });
+    showModal("dialog.roster");
+  }
+
+  function openCertificate() {
+    flushSync(() => {
+      setCertificateSession((session) => session + 1);
+      setCertificateOpen(true);
+    });
+    showModal("dialog.certificate");
   }
 
   return (
@@ -129,7 +145,7 @@ export function Hero({ t, onExplore, onOpen }: Props) {
             ),
           )}
         </dl>
-        <ContactLinks t={t} split />
+        <ContactLinks t={t} split onCertificate={openCertificate} />
       </Spotlight>
 
       <PhotoCard alt={profile.name} label={t.hero.portraitLabel} delay={1} />
@@ -223,6 +239,12 @@ export function Hero({ t, onExplore, onOpen }: Props) {
       </Spotlight>
     </section>
     <RosterDialog kind={roster} session={rosterSession} t={t} onClose={() => setRoster(null)} />
+    <CertificateDialog
+      open={certificateOpen}
+      session={certificateSession}
+      t={t}
+      onClose={() => setCertificateOpen(false)}
+    />
     </>
   );
 }

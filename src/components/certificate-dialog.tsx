@@ -1,24 +1,21 @@
 "use client";
 
-import { portfolioApps, portfolioGames, type StatId } from "@/content/site";
+import { profile } from "@/content/site";
 import type { Dictionary } from "@/locales";
-import { useEffect, useId, useRef, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useId, useRef, type MouseEvent } from "react";
 
 type Props = {
-  kind: StatId | null;
+  open: boolean;
   session: number;
   t: Dictionary;
   onClose: () => void;
 };
 
-export function RosterDialog({ kind, session, t, onClose }: Props) {
+export function CertificateDialog({ open, session, t, onClose }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const openedAt = useRef(0);
   const titleId = useId();
-  const open = kind === "projects" || kind === "games";
-  const items = kind === "games" ? portfolioGames : portfolioApps;
-  const title = kind ? t.stats[kind] : "";
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -52,35 +49,24 @@ export function RosterDialog({ kind, session, t, onClose }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      className="roster"
+      className="certificate"
       aria-labelledby={titleId}
       onClose={onClose}
       onClick={onDialogClick}
     >
       {open ? (
-        <div className="roster-panel" key={session}>
+        <div className="certificate-panel" key={session}>
           <div className="roster-head">
-            <h2 id={titleId}>{title}</h2>
+            <div>
+              <h2 id={titleId}>{t.contact.certificate}</h2>
+              <p className="certificate-caption">{t.contact.certificateCaption}</p>
+            </div>
             <button ref={closeRef} type="button" className="roster-close" onClick={onClose} aria-label={t.work.close}>
               ×
             </button>
           </div>
-          <ul className="roster-grid">
-            {items.map((item, index) => (
-              <li key={item.id} className="tool roster-tile" style={{ "--i": index } as CSSProperties}>
-                <span className="glyph">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.logo} alt="" />
-                </span>
-                <span className="tool-name">{item.name}</span>
-              </li>
-            ))}
-            {kind === "games" ? (
-              <li className="tool roster-tile roster-more" style={{ "--i": items.length } as CSSProperties}>
-                {t.tools.more}
-              </li>
-            ) : null}
-          </ul>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="certificate-image" src={profile.certificate} alt={t.contact.certificateAlt} />
         </div>
       ) : null}
     </dialog>

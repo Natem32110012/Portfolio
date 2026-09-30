@@ -7,6 +7,7 @@ export const profile = {
   emailHref: "mailto:seckin.guneri@gmail.com",
   linkedin: "https://www.linkedin.com/in/seckinguneri/",
   cv: "/cv.pdf",
+  certificate: "/google-certificate.png",
   portrait: "/portrait.jpg",
 };
 
@@ -85,7 +86,7 @@ export type Category = (typeof categories)[number];
 export type FilterId = Category | "all";
 export type WorkSize = "story" | "wide" | "square";
 
-export const workIds = [
+export const aiWorkIds = [
   "ai-01",
   "ai-02",
   "ai-03",
@@ -98,6 +99,20 @@ export const workIds = [
   "ai-10",
   "ai-11",
 ] as const;
+
+export const assetWorkIds = [
+  "asset-switch",
+  "asset-cash",
+  "asset-character",
+  "asset-safe",
+  "asset-headphones",
+  "asset-watch",
+  "asset-phone",
+  "asset-necklace",
+  "asset-cart",
+] as const;
+
+export const workIds = [...aiWorkIds, ...assetWorkIds] as const;
 
 export type WorkId = (typeof workIds)[number];
 
@@ -127,19 +142,40 @@ const aiVideos = [
   "7mz46gdnnDw",
 ] as const;
 
-export const workItems: WorkItem[] = workIds.map((id, index) => ({
-  id,
-  category: "ai",
-  size: "story",
-  format: "9:16",
-  poster: `https://i.ytimg.com/vi/${aiVideos[index]}/maxresdefault.jpg`,
-  youtube: aiVideos[index],
-  featured: index < 10,
-}));
+const assets = [
+  { id: "asset-switch", poster: "/work/assets/switch.jpg" },
+  { id: "asset-cash", poster: "/work/assets/cash.jpg" },
+  { id: "asset-character", poster: "/work/assets/character.jpg" },
+  { id: "asset-safe", poster: "/work/assets/safe.jpg" },
+  { id: "asset-headphones", poster: "/work/assets/headphones.jpg" },
+  { id: "asset-watch", poster: "/work/assets/watch.jpg" },
+  { id: "asset-phone", poster: "/work/assets/phone.jpg" },
+  { id: "asset-necklace", poster: "/work/assets/necklace.jpg" },
+  { id: "asset-cart", poster: "/work/assets/cart.jpg" },
+] as const;
+
+export const workItems: WorkItem[] = [
+  ...aiWorkIds.map((id, index) => ({
+    id,
+    category: "ai" as const,
+    size: "story" as const,
+    format: "9:16",
+    poster: `https://i.ytimg.com/vi/${aiVideos[index]}/maxresdefault.jpg`,
+    youtube: aiVideos[index],
+    featured: index < 10,
+  })),
+  ...assets.map((item) => ({
+    id: item.id,
+    category: "assets" as const,
+    size: "wide" as const,
+    format: "16:9",
+    poster: item.poster,
+  })),
+];
 
 export const featuredWork = workItems.filter((item) => item.featured);
 
 export function worksByFilter(filter: FilterId) {
-  if (filter === "all") return [...workItems];
+  if (filter === "all") return workItems.filter((item) => item.category !== "assets");
   return workItems.filter((item) => item.category === filter);
 }

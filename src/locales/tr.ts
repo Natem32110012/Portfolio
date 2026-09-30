@@ -1,4 +1,4 @@
-import { workIds } from "@/content/site";
+import { aiWorkIds, type WorkId } from "@/content/site";
 import type { DeepPartial, Dictionary, WorkCopy } from "@/locales/types";
 
 const tr: DeepPartial<Dictionary> = {
@@ -8,7 +8,7 @@ const tr: DeepPartial<Dictionary> = {
       "Mobil oyunlar için performans odaklı UA kreatifleri. Video reklamlar, oynanabilir reklamlar, statik bannerlar, mağaza görselleri ve hareketli grafikler. İstanbul.",
   },
   header: {
-    work: "İşler",
+    work: "Çalışmalarım",
     language: "Dil",
     skip: "İçeriğe atla",
   },
@@ -17,7 +17,7 @@ const tr: DeepPartial<Dictionary> = {
     location: "İstanbul",
     positioning: "Mobil oyunlar ve oyun dışı ürünler için performans odaklı UA kreatifleri",
     status: "Yeni fırsatlara açığım",
-    explore: "İşlerimi keşfet",
+    explore: "Çalışmalarımı keşfet",
     viewAll: "Tümünü gör",
     portraitLabel: "Portre",
   },
@@ -63,6 +63,9 @@ const tr: DeepPartial<Dictionary> = {
   contact: {
     linkedin: "LinkedIn",
     cv: "CV indir",
+    certificate: "Google Sertifikası",
+    certificateCaption: "Dijital Pazarlamanın Temelleri · Google Dijital Atölye · 2022",
+    certificateAlt: "Seçkin Güneri için Google Dijital Atölye sertifikası",
   },
   stats: {
     years: "Deneyim yılı",
@@ -138,8 +141,8 @@ const tr: DeepPartial<Dictionary> = {
     },
   },
   work: {
-    eyebrow: "Seçili işler",
-    heading: "İşler",
+    eyebrow: "Seçili çalışmalar",
+    heading: "Çalışmalarım",
     intro: "AI video, uygulama, mobil oyun, UGC ve 3D.",
     all: "Tümü",
     filterLabel: "İş filtresi",
@@ -151,7 +154,7 @@ const tr: DeepPartial<Dictionary> = {
     role: "Rol",
     result: "Sonuç",
     openPlayable: "Playable’ı aç",
-    hint: "Ok tuşları işler arasında gezer. Esc kapatır.",
+    hint: "Ok tuşları çalışmalar arasında gezer. Esc kapatır.",
     categories: {
       ai: "AI Video Kreatifleri",
       app: "Uygulama Kreatifleri",
@@ -159,19 +162,84 @@ const tr: DeepPartial<Dictionary> = {
       ugc: "UGC Kreatifleri",
       assets: "3D Asset’ler",
     },
-    items: Object.fromEntries(
-      workIds.map((id, index) => {
-        const title = `${String(index + 1).padStart(2, "0")}-Kreatif`;
-        const copy: WorkCopy = {
-          title,
-          caption: "AI video kreatifi.",
-          role: "Pazarlama Sanatçısı",
-          result: "",
-          alt: title,
-        };
-        return [id, copy];
-      }),
-    ) as Record<(typeof workIds)[number], WorkCopy>,
+    items: {
+      ...Object.fromEntries(
+        aiWorkIds.map((id, index) => {
+          const title = `${String(index + 1).padStart(2, "0")}-Kreatif`;
+          const copy: WorkCopy = {
+            title,
+            caption: "AI video kreatifi.",
+            role: "Pazarlama Sanatçısı",
+            result: "",
+            alt: title,
+          };
+          return [id, copy];
+        }),
+      ),
+      "asset-switch": {
+        title: "Toggle Switch",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D anahtar",
+      },
+      "asset-cash": {
+        title: "Cash Stack",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D nakit destesi",
+      },
+      "asset-character": {
+        title: "Character",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D karakter",
+      },
+      "asset-safe": {
+        title: "Safe",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D kasa",
+      },
+      "asset-headphones": {
+        title: "Headphones",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D kulaklık",
+      },
+      "asset-watch": {
+        title: "Watch",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D saat",
+      },
+      "asset-phone": {
+        title: "Phone",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D telefon",
+      },
+      "asset-necklace": {
+        title: "Necklace",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D kolye",
+      },
+      "asset-cart": {
+        title: "Shopping Cart",
+        caption: "3D asset.",
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: "3D alışveriş sepeti",
+      },
+    } as Record<WorkId, WorkCopy>,
   },
   footer: {
     heading: "Birlikte çalışalım",
