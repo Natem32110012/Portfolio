@@ -1,5 +1,21 @@
-import { aiWorkIds, type WorkId } from "@/content/site";
+import { aiWorkIds, appWorkIds, gameWorkIds, ugcWorkIds, type WorkId } from "@/content/site";
 import type { DeepPartial, Dictionary, WorkCopy } from "@/locales/types";
+
+function numberedCopies(ids: readonly WorkId[], caption: string) {
+  return Object.fromEntries(
+    ids.map((id, index) => {
+      const title = `${String(index + 1).padStart(2, "0")}-Kreatif`;
+      const copy: WorkCopy = {
+        title,
+        caption,
+        role: "Pazarlama Sanatçısı",
+        result: "",
+        alt: title,
+      };
+      return [id, copy];
+    }),
+  );
+}
 
 const tr: DeepPartial<Dictionary> = {
   meta: {
@@ -163,19 +179,10 @@ const tr: DeepPartial<Dictionary> = {
       assets: "3D Asset’ler",
     },
     items: {
-      ...Object.fromEntries(
-        aiWorkIds.map((id, index) => {
-          const title = `${String(index + 1).padStart(2, "0")}-Kreatif`;
-          const copy: WorkCopy = {
-            title,
-            caption: "AI video kreatifi.",
-            role: "Pazarlama Sanatçısı",
-            result: "",
-            alt: title,
-          };
-          return [id, copy];
-        }),
-      ),
+      ...numberedCopies(aiWorkIds, "AI video kreatifi."),
+      ...numberedCopies(appWorkIds, "Uygulama kreatifi."),
+      ...numberedCopies(gameWorkIds, "Mobil oyun kreatifi."),
+      ...numberedCopies(ugcWorkIds, "UGC kreatifi."),
       "asset-switch": {
         title: "Toggle Switch",
         caption: "3D asset.",

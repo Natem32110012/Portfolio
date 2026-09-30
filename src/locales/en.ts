@@ -1,5 +1,21 @@
-import { aiWorkIds, type WorkId } from "@/content/site";
+import { aiWorkIds, appWorkIds, gameWorkIds, ugcWorkIds, type WorkId } from "@/content/site";
 import type { Dictionary, WorkCopy } from "@/locales/types";
+
+function numberedCopies(ids: readonly WorkId[], caption: string) {
+  return Object.fromEntries(
+    ids.map((id, index) => {
+      const title = `${String(index + 1).padStart(2, "0")}-Creative`;
+      const copy: WorkCopy = {
+        title,
+        caption,
+        role: "Marketing Artist",
+        result: "",
+        alt: title,
+      };
+      return [id, copy];
+    }),
+  );
+}
 
 const en = {
   meta: {
@@ -160,19 +176,10 @@ const en = {
       assets: "3D Assets",
     },
     items: {
-      ...Object.fromEntries(
-        aiWorkIds.map((id, index) => {
-          const title = `${String(index + 1).padStart(2, "0")}-Creative`;
-          const copy: WorkCopy = {
-            title,
-            caption: "AI video creative.",
-            role: "Marketing Artist",
-            result: "",
-            alt: title,
-          };
-          return [id, copy];
-        }),
-      ),
+      ...numberedCopies(aiWorkIds, "AI video creative."),
+      ...numberedCopies(appWorkIds, "App creative."),
+      ...numberedCopies(gameWorkIds, "Mobile game creative."),
+      ...numberedCopies(ugcWorkIds, "UGC creative."),
       "asset-switch": {
         title: "Toggle Switch",
         caption: "3D asset.",

@@ -100,6 +100,65 @@ export const aiWorkIds = [
   "ai-11",
 ] as const;
 
+export const appWorkIds = [
+  "app-01",
+  "app-02",
+  "app-03",
+  "app-04",
+  "app-05",
+  "app-06",
+  "app-07",
+  "app-08",
+] as const;
+
+export const gameWorkIds = [
+  "game-01",
+  "game-02",
+  "game-03",
+  "game-04",
+  "game-05",
+  "game-06",
+  "game-07",
+  "game-08",
+  "game-09",
+  "game-10",
+  "game-11",
+  "game-12",
+  "game-13",
+  "game-14",
+  "game-15",
+  "game-16",
+  "game-17",
+  "game-18",
+  "game-19",
+  "game-20",
+  "game-21",
+  "game-22",
+  "game-23",
+  "game-24",
+  "game-25",
+  "game-26",
+  "game-27",
+  "game-28",
+  "game-29",
+  "game-30",
+  "game-31",
+  "game-32",
+] as const;
+
+export const ugcWorkIds = [
+  "ugc-01",
+  "ugc-02",
+  "ugc-03",
+  "ugc-04",
+  "ugc-05",
+  "ugc-06",
+  "ugc-07",
+  "ugc-08",
+  "ugc-09",
+  "ugc-10",
+] as const;
+
 export const assetWorkIds = [
   "asset-switch",
   "asset-cash",
@@ -112,7 +171,7 @@ export const assetWorkIds = [
   "asset-cart",
 ] as const;
 
-export const workIds = [...aiWorkIds, ...assetWorkIds] as const;
+export const workIds = [...aiWorkIds, ...appWorkIds, ...gameWorkIds, ...ugcWorkIds, ...assetWorkIds] as const;
 
 export type WorkId = (typeof workIds)[number];
 
@@ -142,6 +201,76 @@ const aiVideos = [
   "7mz46gdnnDw",
 ] as const;
 
+const appVideos = [
+  "CySTDwTUc94",
+  "QUQXCXROH2s",
+  "koGwQ1MvDpI",
+  "i13o2NaOJVE",
+  "DSqhBOH1o8g",
+  "3HpjipD8QoI",
+  "VmKcHVCM4X8",
+  "CknY5nY24PY",
+] as const;
+
+const gameVideos = [
+  "-C8rbBUN0mA",
+  "XqwYuFKyUvE",
+  "qCu3DrW2a5c",
+  "jeHuImbUQfo",
+  "LFPAdbIFzzw",
+  "QcssdHH0tyY",
+  "9Mn9eyMkx4c",
+  "uH1Ho7CjP-Y",
+  "UXzES46CG1s",
+  "ttH2jnfUdqU",
+  "OqDCr0FLP8o",
+  "NZaWTs3Sn6w",
+  "sqOAVXFZDCY",
+  "2UbIXJohh18",
+  "Nw69IafymlE",
+  "xgm4EXgUr_I",
+  "-JIgU4jxP7U",
+  "vyDDb8mjNJk",
+  "XObXLEjWpio",
+  "yls1bCThIoA",
+  "qxl8OUmFL1c",
+  "ULVq2E4k2is",
+  "tT3y7pzSdes",
+  "WNVkax6kHtY",
+  "78NtkS44Skw",
+  "LAwEpQTZPkI",
+  "dncEmUoAaK8",
+  "Nx4JHbs5Clw",
+  "fMAlB1w4sFc",
+  "d8oxfmK0kyQ",
+  "MBcI7neKnK4",
+  "fMnjTRleslM",
+] as const;
+
+const ugcVideos = [
+  "Atlvfyjl0WQ",
+  "Xl3sskNgqzQ",
+  "wP944Y_bzDs",
+  "sjD3jJMnpoA",
+  "yf04_PjzU-4",
+  "sp9-tlnca_g",
+  "pg_m_liXErY",
+  "IQ5fT6B300I",
+  "Ut1JLG_SpAo",
+  "HDK6bfGiR0g",
+] as const;
+
+function youtubeStories<T extends WorkId>(ids: readonly T[], videos: readonly string[], category: Category): WorkItem[] {
+  return ids.map((id, index) => ({
+    id,
+    category,
+    size: "story" as const,
+    format: "9:16",
+    poster: `https://i.ytimg.com/vi/${videos[index]}/maxresdefault.jpg`,
+    youtube: videos[index],
+  }));
+}
+
 const assets = [
   { id: "asset-switch", poster: "/work/assets/switch.jpg" },
   { id: "asset-cash", poster: "/work/assets/cash.jpg" },
@@ -164,6 +293,9 @@ export const workItems: WorkItem[] = [
     youtube: aiVideos[index],
     featured: index < 10,
   })),
+  ...youtubeStories(appWorkIds, appVideos, "app"),
+  ...youtubeStories(gameWorkIds, gameVideos, "game"),
+  ...youtubeStories(ugcWorkIds, ugcVideos, "ugc"),
   ...assets.map((item) => ({
     id: item.id,
     category: "assets" as const,
